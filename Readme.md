@@ -1,6 +1,6 @@
 Create a simple shape editor.
 
-Implement the following keystroke commands:
+Implement the following initial keystroke commands:
 * r: Create a rectangle (size is up to you)
 * c: A circle
 * q: A square (special rectangle)
@@ -18,7 +18,7 @@ Allow the user to select a shape with the mouse:
 * Once a shape is selected, make it the "current shape".
 * Identify the current shape by making it blink for two seconds (250 ms on/off)
 
-Commands:
+Additional Commands:
 * m: Move the current shape. The next mouse click location becomes the new origin of the shape.
 * 1: Make the current shape red
 * 2: Make the current shape blue
