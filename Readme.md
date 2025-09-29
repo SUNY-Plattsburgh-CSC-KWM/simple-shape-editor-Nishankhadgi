@@ -4,7 +4,7 @@ https://plattsburgh.video.yuja.com/V/Video?v=14106852&node=61514562&a=128187271
 
 Using shapes (not buttons), implement Create, Move, and Delete; and two shape types: Circles and Rectangles.
 
-Create shapes in the SVG for each button (Create, Move, Delete), and shapes for the shape types that are only visible when required. These are static shapes, created in your HTML. The commands will create, move, and delete dynamic shapes that you create through menu selections.
+Create shapes in the SVG for each command (Create, Move, Delete), and shapes for the shape types that are only visible when required. These are static shapes, created in your HTML. The commands will create, move, and delete dynamic shapes that you create through menu selections.
 
 A few hints:
 * Think of this as a state machine.
