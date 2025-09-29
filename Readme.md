@@ -39,10 +39,10 @@ My implementation has functions that do the following:
 The only function that exceeds about 10-15 lines is the dispatcher.
 
 Think about the state machine:
-Create => Select Shape Type => Find Location and add shape
-* Something that fooled Gemini (below) is that the create command just makes the shape types visible. You can probably create a rect or circle without clicking on create, it's a bug.
-Delete => Select Shape => delete
-Move => Select Shape => Find location and move
+* Create => Select Shape Type => Find Location and add shape
+  * Something that fooled Gemini (below) is that the create command just makes the shape types visible. You can probably create a rect or circle without clicking on create, it's a bug.
+* Delete => Select Shape => delete
+* Move => Select Shape => Find location and move
 
 Gemini extracted this state transition table from my dispatcher:
 
