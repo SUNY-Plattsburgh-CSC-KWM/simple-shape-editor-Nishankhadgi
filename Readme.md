@@ -31,6 +31,7 @@ My implementation has functions that do the following:
 * A function that determines if an x/y intersects with a shape, and returns the index in the shapes array.
 * A function that determines the distance from x/y to the center of a circle (for rectangles you check if x/y is inside the shape, for circles you need to check the radius)
 * A function to blink a shape by alternating the fill color between "transparent" and the shape's fill.
+* A shape to expose or hide the shape types.
 * A function to move a shape to a new x/y
 * A function to delete a shape (from the DOM and the shapes array)
 * Functions to create rectangles and circles by creating a new element, setting the attributes, appending to the SVG, and appending to the shapes array.
@@ -39,6 +40,7 @@ The only function that exceeds about 10-15 lines is the dispatcher.
 
 Think about the state machine:
 Create => Select Shape Type => Find Location and add shape
+* Something that fooled Gemini (below) is that the create command just makes the shape types visible. You can probably create a rect or circle without clicking on create, it's a bug.
 Delete => Select Shape => delete
 Move => Select Shape => Find location and move
 
@@ -47,6 +49,9 @@ Gemini extracted this state transition table from my dispatcher:
 These events trigger transitions between states.
 
 * From Idle:
+  * Event: User clicks the 'create' command.  (Gemini missed this one)
+    * Action: Expose the shape types
+    * Transition To: Idle.
   * Event: User clicks the 'rectangle' command.
     * Transition To: Creating Rectangle.
   * Event: User clicks the 'circle' command.
