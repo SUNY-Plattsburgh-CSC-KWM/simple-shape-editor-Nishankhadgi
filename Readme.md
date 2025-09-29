@@ -20,7 +20,7 @@ Create a data structure that holds:
 * Other required attribute (like "r" for circle radius, "height" and "width" for rectangles)
 * Shape's fill color
 * Shape's ID (recommend using "id"+n, where n is the nth shape created)
-* Element in the DOM
+* Element in the DOM (you should create the shapes using createElementNS() and assign the ID you generate. That allows you to link the shapes in the DOM with the entries in this data structure.
 
 A similar data structure for the commands.
 
