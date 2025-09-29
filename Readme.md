@@ -26,6 +26,7 @@ A similar data structure for the commands.
 
 My implementation has functions that do the following:
 * A master loop (dispatchEvent) that called from the mousedown event listener. It gets the x/y location of the mouse click
+* A function to change the message at the top of the screen
 * A function that determines if an x/y intersects with a command rectangle and returns the command
 * A function that determines if an x/y intersects with a shape, and returns the index in the shapes array.
 * A function that determines the distance from x/y to the center of a circle (for rectangles you check if x/y is inside the shape, for circles you need to check the radius)
