@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SVG Shape Editor</title>
+  <style>
+    body { margin: 0; background: #fff; font-family: Arial, sans-serif; }
+    svg { width: 100%; height: 600px; background: white; border: 1px solid #ccc; }
+    .cmd rect { stroke: black; stroke-width: 1; cursor: pointer; }
+    .type rect { stroke: black; stroke-width: 1; cursor: pointer; }
+    text { pointer-events: none; user-select: none; font-size: 14px; font-weight: bold; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<svg id="svg" xmlns="http://www.w3.org/2000/svg">
+
+  <g id="cmdCreate" class="cmd" transform="translate(20, 20)">
+    <rect width="80" height="30" fill="limegreen"></rect>
+    <text x="10" y="20">Create</text>
+  </g>
+  <g id="cmdDelete" class="cmd" transform="translate(20, 60)">
+    <rect width="80" height="30" fill="red"></rect>
+    <text x="10" y="20">Delete</text>
+  </g>
+  <g id="cmdMove" class="cmd" transform="translate(20, 100)">
+    <rect width="80" height="30" fill="skyblue"></rect>
+    <text x="15" y="20">Move</text>
+  </g>
+
+  <g id="rectBtn" class="type hidden" transform="translate(20, 160)">
+    <rect width="80" height="30" fill="khaki"></rect>
+    <text x="5" y="20">Rectangle</text>
+  </g>
+  <g id="circleBtn" class="type hidden" transform="translate(20, 200)">
+    <rect width="80" height="30" fill="lightgray"></rect>
+    <text x="15" y="20">Circle</text>
+  </g>
+</svg>
+
+<script>
+const svg = document.getElementById("svg");
+let state = "idle";
+let selectedShape = null;
+const shapes = [];
+
+const createBtn = document.getElementById("cmdCreate");
+const deleteBtn = document.getElementById("cmdDelete");
+const moveBtn = document.getElementById("cmdMove");
+const rectBtn = document.getElementById("rectBtn");
+const circleBtn = document.getElementById("circleBtn");
+
+createBtn.addEventListener("click", () => {
+  rectBtn.classList.remove("hidden");
+  circleBtn.classList.remove("hidden");
+  state = "chooseType";
+});
+
+rectBtn.addEventListener("click", () => {
+  state = "createRect";
+  hideShapeTypes();
+});
+circleBtn.addEventListener("click", () => {
+  state = "createCircle";
+  hideShapeTypes();
+});
+
+deleteBtn.addEventListener("click", () => { state = "delete"; hideShapeTypes(); });
+moveBtn.addEventListener("click", () => { state = "moveSelect"; hideShapeTypes(); });
+
+function hideShapeTypes() {
+  rectBtn.classList.add("hidden");
+  circleBtn.classList.add("hidden");
+}
+
+svg.addEventListener("click", (e) => {
+  if (e.target.closest(".cmd") || e.target.closest(".type")) return;
+  const pt = svg.createSVGPoint();
+  pt.x = e.clientX;
+  pt.y = e.clientY;
+  const svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
+
+  if (state === "createRect") {
+    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    rect.setAttribute("x", svgP.x - 40);
+    rect.setAttribute("y", svgP.y - 20);
+    rect.setAttribute("width", 80);
+    rect.setAttribute("height", 40);
+    rect.setAttribute("fill", "black");
+    rect.classList.add("shape");
+    svg.appendChild(rect);
+    shapes.push(rect);
+    state = "idle";
+  } 
+  else if (state === "createCircle") {
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("cx", svgP.x);
+    circle.setAttribute("cy", svgP.y);
+    circle.setAttribute("r", 20);
+    circle.setAttribute("fill", "black");
+    circle.classList.add("shape");
+    svg.appendChild(circle);
+    shapes.push(circle);
+    state = "idle";
+  } 
+  else if (state === "delete") {
+    if (e.target.classList.contains("shape")) {
+      svg.removeChild(e.target);
+      state = "idle";
+    }
+  } 
+  else if (state === "moveSelect") {
+    if (e.target.classList.contains("shape")) {
+      selectedShape = e.target;
+      selectedShape.setAttribute("opacity", 0.5);
+      state = "movePlace";
+    }
+  } 
+  else if (state === "movePlace" && selectedShape) {
+    if (selectedShape.tagName === "rect") {
+      selectedShape.setAttribute("x", svgP.x - 40);
+      selectedShape.setAttribute("y", svgP.y - 20);
+    } else if (selectedShape.tagName === "circle") {
+      selectedShape.setAttribute("cx", svgP.x);
+      selectedShape.setAttribute("cy", svgP.y);
+    }
+    selectedShape.setAttribute("opacity", 1);
+    selectedShape = null;
+    state = "idle";
+  }
+});
+</script>
+</body>
+</html>
